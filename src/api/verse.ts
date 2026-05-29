@@ -10,7 +10,6 @@ const API_URL = '/api/recommend';
 
 async function requestRecommendations(
   body: VerseRecommendRequest,
-  fallbackCategory: CategoryId,
 ): Promise<VerseRecommendResponse> {
   const response = await fetch(API_URL, {
     method: 'POST',
@@ -35,7 +34,7 @@ export async function fetchVerseRecommendations(
   language: AppLanguage,
 ): Promise<VerseRecommendResponse> {
   try {
-    return await requestRecommendations({ category: categoryId, language }, categoryId);
+    return await requestRecommendations({ category: categoryId, language });
   } catch {
     return { references: pickRandomSeedReferences(categoryId, 3) };
   }
@@ -46,7 +45,7 @@ export async function fetchVerseByQuery(
   language: AppLanguage,
 ): Promise<VerseRecommendResponse> {
   try {
-    return await requestRecommendations({ query, language }, 'faith');
+    return await requestRecommendations({ query, language });
   } catch {
     return { references: pickRandomSeedReferences('faith', 3) };
   }
